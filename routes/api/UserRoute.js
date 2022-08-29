@@ -30,7 +30,7 @@ router.post("/login", async (req, res) => {
       if (isPasswordValid) {
         res.status(200).json(user);
       } else {
-        res.status(401).json({ message: "Contrasela invalida" });
+        res.status(401).json({ message: "Contraseña invalida" });
       }
     } else {
       res.status(401).json({ message: "Correo invalido" });
