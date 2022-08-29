@@ -3,6 +3,9 @@ require("dotenv").config();
 const TravelModel = require("./models/TravelModel");
 const UsersModel = require("./models/UsersModel");
 const VehiclesModel = require("./models/VehiclesModel");
+const TravelRegisterModel = require("./models/TravelRegisterModel");
+
+
 
 const sequelize = new Sequelize(
   process.env.DB_NAME,
@@ -17,6 +20,9 @@ const sequelize = new Sequelize(
 const Travel = TravelModel(sequelize, Sequelize);
 const Users = UsersModel(sequelize, Sequelize);
 const Vehicles = VehiclesModel(sequelize, Sequelize);
+const TravelRegister = TravelRegisterModel(sequelize, Sequelize);
+
+
 
 sequelize
   .sync({ force: false })
