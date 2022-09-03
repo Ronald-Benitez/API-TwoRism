@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const ApiTravelRoute = require("./api/TravelRoute");
-const ApiUsersRoute = require("./api/UserRoute");
-const ApiVehiclesRoute = require("./api/VehicleRoute");
+const ApiTravelRoute = require("./api/TravelController");
+const ApiUsersRoute = require("./api/UserController");
+const ApiVehiclesRoute = require("./api/VehicleController");
 
 router.use("/travels", ApiTravelRoute);
 router.use("/users", ApiUsersRoute);
