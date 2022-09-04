@@ -14,6 +14,39 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/simplify", async (req, res) => {
+  try {
+    const travels = await Travel.findAll({
+      attributes: [
+        "TravelId",
+        "TravelDate",
+        "TravelOrigin",
+        "TravelDestination",
+        "TravelPrice",
+      ],
+      order: [["TravelDate", "DESC"]],
+    });
+    res.status(200).json(travels);
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
+});
+
+router.get("/ByUser/:UserId", async (req, res) => {
+  try {
+    const travels = await Travel.findAll({
+      where: {
+        UserId: req.params.UserId,
+      },
+      order: [["TravelDate", "DESC"]],
+      include: [Vehicles],
+    });
+    res.status(200).json(travels);
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
+});
+
 router.get("/:TravelId", async (req, res) => {
   try {
     const travel = await Travel.findOne({

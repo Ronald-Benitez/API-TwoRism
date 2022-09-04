@@ -15,6 +15,19 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:UserId", async (req, res) => {
+  try {
+    const user = await Users.update(req.body, {
+      where: {
+        UserId: req.params.UserId,
+      },
+    });
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
+});
+
 router.post("/login", async (req, res) => {
   try {
     const user = await Users.findOne({
