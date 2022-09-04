@@ -20,6 +20,9 @@ const Users = UsersModel(sequelize, Sequelize);
 const Vehicles = VehiclesModel(sequelize, Sequelize);
 const TravelRegister = TravelRegisterModel(sequelize, Sequelize);
 
+Travel.belongsTo(Vehicles, { foreignKey: "VehicleId" });
+TravelRegister.belongsTo(Travel, { foreignKey: "TravelId" });
+
 sequelize
   .sync({ force: false })
   .then(() => {
