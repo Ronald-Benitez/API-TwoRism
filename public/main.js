@@ -1,4 +1,4 @@
-const route = "http://localhost:4000/api";
+const route = "https://api-tworism.herokuapp.com/api/";
 
 const htmlGenerator = (data) => {
   var html = "";
