@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
       allowNull: false,
+      unique: true,
     },
     UserName: {
       type: DataTypes.STRING,
@@ -26,6 +27,14 @@ module.exports = (sequelize, DataTypes) => {
     UserType: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    UserCalification: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+    },
+    UserCalifications: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
   });
 };
