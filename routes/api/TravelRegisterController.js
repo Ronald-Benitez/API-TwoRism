@@ -44,26 +44,37 @@ router.get("/simplify/:UserId", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const travel = await TravelRegister.create(req.body);
-    res.status(200).json(travel);
+    const travelId = req.body.TravelId;
+    const register = await Travel.findOne({
+      where: {
+        TravelId: travelId,
+      },
+    });
+
+    if (register.TravelCapacity > register.TravelRegistered) {
+      register.TravelRegistered = register.TravelRegistered + 1;
+      const travel = await TravelRegister.create(req.body);
+      await register.save();
+      res.status(201).json(travel);
+    } else {
+      res.status(401).json({ message: "No hay cupo" });
+    }
   } catch (err) {
     res.status(401).json({ message: "Datos invalidos" });
   }
 });
 
 router.delete("/:TravelRegisterId", async (req, res) => {
-    try {
-        const travel = await TravelRegister.destroy({
-            where: {
-                TravelRegisterId: req.params.TravelRegisterId
-            }
-        });
-        res.status(200).json(travel);
-    } catch (err) {
-        res.status(401).json({ message: "Datos invalidos" });
-    }
+  try {
+    const travel = await TravelRegister.destroy({
+      where: {
+        TravelRegisterId: req.params.TravelRegisterId,
+      },
+    });
+    res.status(200).json(travel);
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
 });
-
-
 
 module.exports = router;
