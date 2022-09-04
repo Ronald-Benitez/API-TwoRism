@@ -11,6 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", ApiRouter);
+app.use(express.static(__dirname + "/public"));
 
 app.get("/", (req, res) => {
   res.send("He Vegeta!");

@@ -41,9 +41,70 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  // const users = await Users.findAll();
-  // res.status(200).json(users);
-  res.send("He Vegeta!");
+  try {
+    const users = await Users.findAll({
+      attributes: ["UserId", "UserName", "UserEmail", "UserVerified"],
+      where: {
+        UserType: "Proveedor",
+      },
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
+});
+
+router.get("/verified", async (req, res) => {
+  try {
+    const users = await Users.findAll({
+      attributes: ["UserId", "UserName", "UserEmail", "UserVerified"],
+      where: {
+        UserType: "Proveedor",
+        UserVerified: 1,
+      },
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
+});
+
+router.get("/unverified", async (req, res) => {
+  try {
+    const users = await Users.findAll({
+      attributes: ["UserId", "UserName", "UserEmail", "UserVerified"],
+      where: {
+        UserType: "Proveedor",
+        UserVerified: 0,
+      },
+    });
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
+});
+
+router.put("/verify/:UserId", async (req, res) => {
+  try {
+    const user = await Users.findOne({
+      where: {
+        UserId: req.params.UserId,
+      },
+    });
+    if (user) {
+      if (user.UserVerified == 0) {
+        user.UserVerified = 1;
+      } else {
+        user.UserVerified = 0;
+      }
+      await user.save();
+      res.status(200).json(user);
+    } else {
+      res.status(401).json({ message: "Usuario no encontrado" });
+    }
+  } catch (err) {
+    res.status(401).json({ message: "Datos invalidos" });
+  }
 });
 
 module.exports = router;
