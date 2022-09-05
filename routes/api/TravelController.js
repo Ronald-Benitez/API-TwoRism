@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { Travel } = require("../../db");
 const { Vehicles } = require("../../db");
+const { Op } = require("sequelize");
 
 router.get("/", async (req, res) => {
   try {
@@ -94,6 +95,29 @@ router.delete("/:TravelId", async (req, res) => {
     res.status(200).json(travel);
   } catch (err) {
     console.log(err);
+    res.status(401).json({ message: "Datos invalidos" });
+  }
+});
+
+router.post("/filter", async (req, res) => {
+  try {
+    const travels = await Travel.findAll({
+      where: {
+        [req.body.filter]: {
+          [Op.like]: "%" + req.body.value + "%",
+        },
+      },
+      attributes: [
+        "TravelId",
+        "TravelDate",
+        "TravelOrigin",
+        "TravelDestination",
+        "TravelPrice",
+      ],
+      order: [["TravelDate", "DESC"]],
+    });
+    res.status(200).json(travels);
+  } catch (err) {
     res.status(401).json({ message: "Datos invalidos" });
   }
 });
